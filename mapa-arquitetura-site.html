@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mapa de Arquitetura — Site Dr. Rafael Cordeiro</title>
+<style>
+  :root{
+    --ink:#0f1b33; --ink-2:#33415c; --muted:#64748b; --faint:#94a3b8;
+    --blue:#1d6fe0; --blue-dark:#0f4ba8; --blue-soft:#eaf2fe; --blue-line:#cfe0fa;
+    --bg:#f6f9fe; --card:#ffffff; --line:#e6edf6;
+    --green:#0f9d58; --amber:#c98a00;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6; padding:0 18px 90px;
+  }
+  .wrap{max-width:1000px;margin:0 auto;}
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(135deg,#0f4ba8 0%,#1d6fe0 100%);
+    color:#fff;border-radius:18px;padding:42px 38px;margin:30px 0 14px;
+    box-shadow:0 18px 50px -24px rgba(15,75,168,.6);
+  }
+  .hero .kick{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#bcd6fb;margin-bottom:14px;}
+  .hero h1{font-size:30px;font-weight:800;line-height:1.18;margin-bottom:12px;}
+  .hero p{color:#dbe8fc;max-width:680px;font-size:15px;}
+  .legend{margin-top:20px;display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:#cfe0fa;}
+  .legend b{color:#fff;}
+
+  .intro{color:var(--ink-2);font-size:15px;margin:22px 4px 30px;}
+
+  /* Section title */
+  .block-title{display:flex;align-items:center;gap:12px;margin:38px 0 6px;}
+  .block-title .n{
+    width:34px;height:34px;border-radius:9px;background:var(--blue);color:#fff;
+    display:grid;place-items:center;font-weight:800;font-size:15px;flex:0 0 auto;
+  }
+  .block-title h2{font-size:21px;color:var(--ink);font-weight:800;}
+  .block-sub{color:var(--muted);font-size:13.5px;margin:0 0 18px 46px;}
+
+  /* Sitemap tree */
+  .tree{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 28px;margin-bottom:10px;}
+  .node{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+  .pill{
+    background:var(--blue-soft);color:var(--blue-dark);border:1px solid var(--blue-line);
+    border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px;
+  }
+  .pill.home{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .sub{margin:14px 0 0 24px;padding-left:22px;border-left:2px dashed var(--blue-line);}
+  .sub .row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;align-items:center;}
+  .leaf{background:#fff;border:1px solid var(--line);border-radius:9px;padding:6px 12px;font-size:13px;color:var(--ink-2);}
+  .leaf .u{color:var(--faint);font-size:11.5px;font-family:monospace;}
+  .tag{font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;color:#fff;letter-spacing:.3px;}
+  .tag.adm{background:var(--amber);} .tag.seo{background:var(--green);} .tag.new{background:var(--blue);}
+
+  /* Home sections list */
+  .home-flow{counter-reset:hs;}
+  .hs{
+    background:var(--card);border:1px solid var(--line);border-left:4px solid var(--blue);
+    border-radius:12px;padding:16px 20px 16px 18px;margin-bottom:11px;position:relative;
+    page-break-inside:avoid;
+  }
+  .hs .hhead{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;}
+  .hs .num{counter-increment:hs;}
+  .hs .num::before{
+    content:counter(hs,decimal-leading-zero);color:var(--blue);font-weight:800;font-size:13px;
+    font-family:monospace;
+  }
+  .hs h3{font-size:15.5px;color:var(--ink);font-weight:700;}
+  .hs .badge{font-size:9.5px;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:.4px;}
+  .badge.ref{background:#eef2f7;color:#64748b;} .badge.plus{background:#e3f6ec;color:#0f9d58;}
+  .hs p{color:var(--ink-2);font-size:13.5px;margin:0;}
+
+  /* Page cards */
+  .pages{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:680px){.pages{grid-template-columns:1fr;}}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;page-break-inside:avoid;}
+  .pcard .pt{display:flex;align-items:center;gap:9px;margin-bottom:4px;}
+  .pcard h3{font-size:16px;color:var(--ink);font-weight:800;}
+  .pcard .url{font-family:monospace;font-size:11.5px;color:var(--faint);margin-bottom:12px;}
+  .pcard ul{list-style:none;}
+  .pcard li{font-size:13px;color:var(--ink-2);padding:4px 0 4px 18px;position:relative;}
+  .pcard li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--blue);}
+
+  .callout{
+    background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:14px;
+    padding:18px 22px;margin:14px 0;font-size:13.5px;color:var(--ink-2);
+  }
+  .callout b{color:var(--blue-dark);}
+  .callout.warn{background:#fff8e8;border-color:#f0dca6;color:#5e4d1e;}
+  .callout.warn b{color:#8a6d1b;}
+
+  .global{display:flex;flex-wrap:wrap;gap:10px;}
+  .global .g{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:10px 14px;font-size:13px;color:var(--ink-2);display:flex;gap:8px;align-items:center;
+  }
+  .global .g b{color:var(--ink);}
+
+  footer{margin-top:46px;padding-top:20px;border-top:1px solid var(--line);color:var(--faint);font-size:12px;text-align:center;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kick">Projeto do site · Arquitetura</div>
+    <h1>Mapa do site do Dr. Rafael Cordeiro</h1>
+    <p>Visão completa de todas as páginas e de cada seção da home. Identidade visual: clean clara (branco + azul médico). Estrutura híbrida — fluxo institucional da referência + páginas próprias por condição para ranquear no Google.</p>
+    <div class="legend">
+      <span><b>● Híbrido:</b> resumo na home + página dedicada</span>
+      <span><span class="tag seo" style="margin-right:4px;">SEO</span> otimizada pra busca</span>
+      <span><span class="tag adm" style="margin-right:4px;">ADMIN</span> editável no painel</span>
+    </div>
+  </div>
+
+  <p class="intro">Jorge, esse é o esqueleto que proponho. A home ficou bem mais completa que a da referência — somei as seções de prova de autoridade, jornada do paciente, FAQ, tecnologias, blog em destaque e vídeo. Tudo conversando com as páginas internas.</p>
+
+  <!-- ===== SITEMAP ===== -->
+  <div class="block-title"><div class="n">1</div><h2>Sitemap — visão de cima</h2></div>
+  <p class="block-sub">Como as páginas se conectam. O que tem filhos é hub; o que tem etiqueta ADMIN o Rafael edita sozinho.</p>
+
+  <div class="tree">
+    <div class="node"><span class="pill home">HOME</span></div>
+    <div class="sub">
+      <div class="row"><span class="leaf">Sobre o Dr. Rafael <span class="u">/sobre</span></span></div>
+      <div class="row">
+        <span class="leaf">Condições &amp; Tratamentos <span class="u">/tratamentos</span></span>
+        <span class="tag seo">SEO</span>
+        <span style="color:var(--faint);font-size:12px;">→ hub com 1 página por dor</span>
+      </div>
+      <div class="sub" style="margin-top:6px;">
+        <div class="row">
+          <span class="leaf">/hernia-de-disco</span>
+          <span class="leaf">/dor-ciatica</span>
+          <span class="leaf">/lombalgia</span>
+          <span class="leaf">/cervicalgia</span>
+          <span class="leaf">/escoliose</span>
+          <span class="leaf">… +outras</span>
+          <span class="tag seo">SEO</span>
+        </div>
+      </div>
+      <div class="row">
+        <span class="leaf">Blog / Matérias <span class="u">/blog</span></span>
+        <span class="tag adm">ADMIN</span>
+        <span class="tag seo">SEO</span>
+      </div>
+      <div class="sub" style="margin-top:6px;">
+        <div class="row">
+          <span class="leaf">Página do artigo <span class="u">/blog/titulo-do-post</span></span>
+          <span class="tag adm">ADMIN</span>
+        </div>
+        <div class="row">
+          <span class="leaf">[restrito] Painel administrativo <span class="u">/admin</span></span>
+          <span class="tag adm">ADMIN</span>
+          <span style="color:var(--faint);font-size:12px;">→ login só do Rafael</span>
+        </div>
+      </div>
+      <div class="row"><span class="leaf">Contato &amp; Agendamento <span class="u">/contato</span></span></div>
+      <div class="row"><span class="leaf">Política de Privacidade <span class="u">/privacidade</span></span></div>
+    </div>
+  </div>
+
+  <!-- ===== HOME ===== -->
+  <div class="block-title"><div class="n">2</div><h2>A Home, seção por seção</h2></div>
+  <p class="block-sub">Ordem de cima pra baixo. <span class="badge ref" style="font-size:9.5px;">REF</span> = veio da referência · <span class="badge plus" style="font-size:9.5px;">NOVO</span> = adição que turbina a página.</p>
+
+  <div class="home-flow">
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Hero</h3><span class="badge ref">REF</span></div>
+      <p>Headline forte + frase de impacto + foto do Dr. + botão WhatsApp. Primeira coisa que o visitante vê.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Faixa de autoridade (números)</h3><span class="badge plus">NOVO</span></div>
+      <p>Métricas de impacto: anos de experiência, nº de cirurgias, pacientes atendidos, formação. Confiança imediata.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Boas-vindas / mini-bio</h3><span class="badge ref">REF</span></div>
+      <p>Texto em 1ª pessoa apresentando o Dr. Rafael, com link para a página “Sobre” completa.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Diferenciais (3 pilares)</h3><span class="badge ref">REF</span></div>
+      <p>Humanização e empatia · Cirurgias menos invasivas · Técnicas inovadoras. Ícones + texto curto.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Tecnologias &amp; equipamentos</h3><span class="badge plus">NOVO</span></div>
+      <p>Destaque do que ele usa de mais moderno (endoscopia, microcirurgia etc.). Reforça o diferencial técnico.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Principais condições (resumos)</h3><span class="badge ref">REF</span><span class="tag seo">SEO</span></div>
+      <p>Cards/acordeões com resumo de cada dor → cada um leva à página dedicada. Coração da estratégia híbrida.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Jornada do paciente (passo a passo)</h3><span class="badge plus">NOVO</span></div>
+      <p>1º contato → avaliação → diagnóstico → tratamento → acompanhamento. Tira a insegurança de quem nunca foi.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Como funciona a consulta</h3><span class="badge ref">REF</span></div>
+      <p>Exame físico detalhado, tratamento individualizado, duração mínima. O que esperar do atendimento.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>CTA intermediário</h3><span class="badge ref">REF</span></div>
+      <p>Chamada “Procure o Dr. o quanto antes” + botão de agendamento. Quebra o conteúdo e converte.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Vídeo de apresentação</h3><span class="badge plus">NOVO</span></div>
+      <p>Espaço pra um vídeo curto do Dr. se apresentando. Humaniza e segura o visitante por mais tempo.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Depoimentos de pacientes</h3><span class="badge ref">REF</span></div>
+      <p>Carrossel de depoimentos (com autorização e dentro das regras do CFM).</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Blog em destaque</h3><span class="badge plus">NOVO</span><span class="tag seo">SEO</span></div>
+      <p>Últimas 3 matérias do blog. Mostra um site “vivo” e leva o visitante a explorar mais.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Orientações para a consulta</h3><span class="badge ref">REF</span></div>
+      <p>O que levar (exames, lista de remédios, acompanhante). Útil e prático.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>FAQ geral</h3><span class="badge plus">NOVO</span><span class="tag seo">SEO</span></div>
+      <p>Perguntas frequentes em acordeão. Excelente pra SEO (aparece como destaque no Google).</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Instagram</h3><span class="badge ref">REF</span></div>
+      <p>Feed do Instagram embutido + link pro perfil.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Atendimento / endereços</h3><span class="badge ref">REF</span></div>
+      <p>Clínicas com endereço, telefone/WhatsApp e mapa. Múltiplos locais.</p></div>
+
+    <div class="hs"><div class="hhead"><span class="num"></span><h3>Footer + disclaimer CFM</h3><span class="badge ref">REF</span></div>
+      <p>Menu, redes, aviso obrigatório do CFM e link da política de privacidade.</p></div>
+  </div>
+
+  <!-- ===== PÁGINAS INTERNAS ===== -->
+  <div class="block-title"><div class="n">3</div><h2>Páginas internas</h2></div>
+  <p class="block-sub">O que cada página de dentro vai conter.</p>
+
+  <div class="pages">
+    <div class="pcard">
+      <div class="pt"><h3>Sobre o Dr. Rafael</h3></div>
+      <div class="url">/sobre</div>
+      <ul>
+        <li>Bio aprofundada + foto profissional</li>
+        <li>Formação, residência, especializações</li>
+        <li>CRM, RQE, sociedades, prêmios</li>
+        <li>Filosofia de trabalho e propósito</li>
+        <li>Linha do tempo da carreira</li>
+      </ul>
+    </div>
+
+    <div class="pcard">
+      <div class="pt"><h3>Condições &amp; Tratamentos</h3><span class="tag seo">SEO</span></div>
+      <div class="url">/tratamentos (hub)</div>
+      <ul>
+        <li>Grade com todas as condições</li>
+        <li>Cada card → página dedicada</li>
+        <li>Estrutura padrão por dor:</li>
+        <li>O que é · sintomas · causas · diagnóstico · tratamento · quando procurar · FAQ</li>
+        <li>Schema médico + disclaimer CFM</li>
+      </ul>
+    </div>
+
+    <div class="pcard">
+      <div class="pt"><h3>Blog / Matérias</h3><span class="tag seo">SEO</span></div>
+      <div class="url">/blog</div>
+      <ul>
+        <li>Listagem com busca e categorias</li>
+        <li>Página de artigo (texto, imagem, data)</li>
+        <li>Posts relacionados + CTA agendar</li>
+        <li>Alimentado pelo painel admin</li>
+      </ul>
+    </div>
+
+    <div class="pcard">
+      <div class="pt"><h3>[restrito] Painel administrativo</h3><span class="tag adm">ADMIN</span></div>
+      <div class="url">/admin</div>
+      <ul>
+        <li>Login protegido (só o Rafael)</li>
+        <li>Criar/editar/excluir matérias</li>
+        <li>Campos: título, subtítulo, texto, imagem de capa, categoria</li>
+        <li>Publicar / salvar rascunho</li>
+      </ul>
+    </div>
+
+    <div class="pcard">
+      <div class="pt"><h3>Contato &amp; Agendamento</h3></div>
+      <div class="url">/contato</div>
+      <ul>
+        <li>Formulário de contato</li>
+        <li>Botões de WhatsApp por clínica</li>
+        <li>Mapa de cada endereço</li>
+        <li>Horários e convênios</li>
+      </ul>
+    </div>
+
+    <div class="pcard">
+      <div class="pt"><h3>Política de Privacidade</h3></div>
+      <div class="url">/privacidade</div>
+      <ul>
+        <li>LGPD + uso de dados do formulário</li>
+        <li>Cookies</li>
+        <li>Disclaimer do CFM</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== GLOBAIS ===== -->
+  <div class="block-title"><div class="n">4</div><h2>Componentes globais</h2></div>
+  <p class="block-sub">Aparecem em todas as páginas.</p>
+  <div class="global">
+    <div class="g"><b>›</b> <b>Header fixo</b> com menu</div>
+    <div class="g"><b>›</b> <b>WhatsApp flutuante</b></div>
+    <div class="g"><b>›</b> <b>Footer</b> com disclaimer CFM</div>
+    <div class="g"><b>›</b> <b>SEO técnico</b> em todas as páginas</div>
+    <div class="g"><b>›</b> <b>100% responsivo</b> (celular primeiro)</div>
+  </div>
+
+  <!-- ===== NOTA TÉCNICA ===== -->
+  <div class="block-title"><div class="n">5</div><h2>O ponto que precisamos decidir</h2></div>
+  <div class="callout warn">
+    <b>O painel admin precisa de um “lugar” para guardar as matérias.</b> O site em React/Vite é estático — ele mostra páginas, mas sozinho não salva texto e imagens que o Rafael escrever. Pra isso precisamos de uma peça de backend. Minha recomendação: <b>Supabase</b> (banco + armazenamento de imagens + login, tem plano grátis generoso e integra liso com React). Alternativas: um CMS headless (Strapi, Sanity). Decidimos isso quando começarmos a construir — não trava nada agora.
+  </div>
+
+  <div class="callout">
+    <b>Próximos passos sugeridos:</b> 1) Rafael responde o briefing · 2) definimos identidade visual final e domínio · 3) eu monto o protótipo da home · 4) construímos página por página. Esse mapa é o nosso guia o tempo todo.
+  </div>
+
+  <footer>
+    Mapa de arquitetura · Site institucional Dr. Rafael Cordeiro — Neurocirurgião<br />
+    Documento de planejamento — sujeito a ajustes conforme o briefing e a evolução do projeto.
+  </footer>
+
+</div>
+</body>
+</html>

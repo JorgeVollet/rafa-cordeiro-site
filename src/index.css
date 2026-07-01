@@ -1,0 +1,305 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — Marca Dr. Rafael ("dark glass" + azul-ferro).
+   Em Tailwind v4 estes tokens viram utilitárias automaticamente:
+   --color-ferro   -> bg-ferro / text-ferro / border-ferro
+   --font-display  -> font-display
+   ============================================================ */
+@theme {
+  /* Paleta da marca (Fusão) */
+  --color-ferro: #33506e; /* azul-ferro da logo — seções escuras */
+  --color-ferro-2: #2c4763; /* navy mais fundo — depoimento/ticker */
+  --color-ferro-3: #294461; /* navy profundo — rodapé */
+  --color-acao: #2979ff; /* azul elétrico — ações */
+  --color-acao-escuro: #1f63d8; /* hover da ação */
+  --color-claro: #f4f7fc; /* seções claras (respiro) */
+  --color-grafite: #16263a; /* texto sobre fundo claro */
+  --color-azul-profundo: #1565c0;
+  --color-azul-real: #0b3d91;
+  --color-celeste: #9fc1e0;
+  --color-celeste-2: #afcbe8;
+  --color-celeste-3: #b6c7df;
+
+  /* Tipografia da marca */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Barlow Condensed", "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+
+  /* ---- Tokens legados (stubs/admin antigos; limpar na Fase 3) ---- */
+  --color-branco: #ffffff;
+  --color-fundo-suave: #f6f9fe;
+  --color-azul: #1d6fe0;
+  --color-azul-escuro: #0f4ba8;
+  --color-azul-suave: #eaf2fe;
+  --color-azul-borda: #dcebfd;
+  --color-tinta: #0f1b33;
+  --color-tinta-2: #33415c;
+  --color-linha: #e6edf6;
+  --color-verde: #0f9d58;
+
+  /* Sombras + easing */
+  --shadow-soft: 0 2px 8px -2px rgb(15 27 51 / 0.06),
+    0 10px 28px -10px rgb(15 27 51 / 0.1);
+  --shadow-card: 0 1px 2px rgb(15 27 51 / 0.04),
+    0 16px 40px -16px rgb(15 27 51 / 0.16);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Marquee (magicui) — as animações usam --duration e --gap definidos no componente. */
+@theme inline {
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+}
+
+/* Keyframes globais ---------------------------------------- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes brandFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+@keyframes brandTicker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Base ----------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ferro);
+    color: #f2f4f8;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-acao);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-acao);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Respeita quem prefere menos movimento */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ============================================================
+   DESIGN SYSTEM — tipografia, superfícies (glass/card) e botões.
+   Antes escopado em .dsx (na página Fusão); agora global.
+   ============================================================ */
+@layer components {
+  .f-display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+  }
+  .f-body {
+    font-family: var(--font-sans);
+  }
+  .f-mono {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .f-serif {
+    font-family: var(--font-serif);
+  }
+
+  .btn-primary {
+    background: var(--color-acao);
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 6px;
+    transition: all 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -10px rgba(41, 121, 255, 0.55);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+  .btn-ghost {
+    border: 1px solid rgba(226, 235, 248, 0.5);
+    color: #fff;
+    background: transparent;
+    text-transform: uppercase;
+    border-radius: 6px;
+    transition: all 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(226, 235, 248, 0.85);
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(184, 208, 234, 0.26);
+    border-radius: 14px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.35s,
+      box-shadow 0.35s;
+  }
+  .glass-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(184, 208, 234, 0.55);
+    box-shadow: 0 18px 38px -16px rgba(11, 22, 40, 0.6);
+  }
+  .glass-nav {
+    background: rgba(74, 104, 140, 0.6);
+    backdrop-filter: blur(20px) saturate(1.1);
+    -webkit-backdrop-filter: blur(20px) saturate(1.1);
+  }
+
+  .card-light {
+    background: #fff;
+    border: 1px solid #e6ecf5;
+    border-radius: 14px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.35s,
+      box-shadow 0.35s;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(41, 121, 255, 0.35);
+    box-shadow: 0 22px 44px -20px rgba(22, 38, 58, 0.25);
+  }
+
+  .sec-light {
+    background: var(--color-claro);
+    color: var(--color-grafite);
+  }
+  .grad-brand {
+    background: linear-gradient(120deg, #9fc1e0 0%, #5b9bff 55%, #2979ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    height: 1px;
+    width: 100%;
+    background: #9fc1e0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Utilitárias de projeto ----------------------------------- */
+@layer utilities {
+  /* Largura-mãe do site: ~165px de margem em telas 1920 (ver Fusão). */
+  .container-x {
+    @apply mx-auto w-full max-w-[1654px] px-5 sm:px-8;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.7s var(--ease-soft) both;
+  }
+  .animate-fade-in {
+    animation: fade-in 0.8s var(--ease-soft) both;
+  }
+  .animate-float {
+    animation: brandFloat 8s ease-in-out infinite;
+  }
+  .animate-ticker {
+    animation: brandTicker 28s linear infinite;
+    display: inline-block;
+    white-space: nowrap;
+  }
+}
+
+/* FAQ nativo <details> ------------------------------------- */
+details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .faq-ico {
+  transform: rotate(180deg);
+}

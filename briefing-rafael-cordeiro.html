@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Briefing — Site Dr. Rafael Cordeiro | Neurocirurgião</title>
+<!--
+  ============================================================
+  COMO USAR ESTE FORMULÁRIO (instruções para o Jorge):
+  1. Crie uma conta grátis em https://formspree.io
+  2. Crie um novo formulário e copie o ID dele (algo como "xdorwabc")
+  3. Substitua SEU_ID_AQUI no atributo "action" do <form> abaixo
+     pelo seu ID. Ex: action="https://formspree.io/f/xdorwabc"
+  4. Hospede este arquivo (Netlify, Vercel, GitHub Pages, ou o próprio
+     servidor do site) e envie o link para o Dr. Rafael responder.
+  5. As respostas chegam no e-mail cadastrado no Formspree.
+  ============================================================
+-->
+<style>
+  :root{
+    --bg:#0a0f1f;
+    --bg-card:#0e1530;
+    --bg-input:#121a38;
+    --border:#1f2d55;
+    --border-focus:#3b82f6;
+    --accent:#4f9cf9;
+    --accent-2:#2563eb;
+    --text:#e8eefc;
+    --text-dim:#9fb0d4;
+    --text-faint:#6b7aa3;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%, #122046 0%, var(--bg) 55%);
+    color:var(--text);
+    line-height:1.6;
+    padding:0 16px 80px;
+  }
+  .wrap{max-width:820px;margin:0 auto;}
+
+  /* Header */
+  header{padding:56px 0 28px;text-align:center;}
+  .kicker{
+    display:inline-block;font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--border);border-radius:999px;
+    padding:6px 16px;margin-bottom:22px;background:rgba(79,156,249,.06);
+  }
+  header h1{font-size:30px;line-height:1.25;font-weight:700;margin-bottom:14px;}
+  header h1 span{color:var(--accent);}
+  header p{color:var(--text-dim);max-width:620px;margin:0 auto;font-size:15.5px;}
+  .meta{
+    margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+    font-size:13px;color:var(--text-faint);
+  }
+  .meta b{color:var(--text-dim);font-weight:600;}
+
+  /* Progress note */
+  .note{
+    background:rgba(37,99,235,.08);border:1px solid var(--border);
+    border-radius:var(--radius);padding:16px 20px;margin:8px 0 36px;
+    font-size:14px;color:var(--text-dim);
+  }
+  .note b{color:var(--text);}
+
+  /* Sections */
+  section{
+    background:var(--bg-card);border:1px solid var(--border);
+    border-radius:18px;padding:30px 26px;margin-bottom:24px;
+    box-shadow:0 10px 40px -20px rgba(0,0,0,.7);
+  }
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
+  .sec-num{
+    flex:0 0 auto;width:38px;height:38px;border-radius:10px;
+    display:grid;place-items:center;font-weight:700;font-size:15px;
+    background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#fff;
+  }
+  .sec-head h2{font-size:20px;font-weight:700;}
+  .sec-desc{color:var(--text-faint);font-size:13.5px;margin:0 0 24px 52px;}
+
+  .field{margin-bottom:22px;}
+  label{display:block;font-weight:600;font-size:14.5px;margin-bottom:8px;color:var(--text);}
+  label .opt{color:var(--text-faint);font-weight:400;font-size:12.5px;}
+  .hint{color:var(--text-faint);font-size:12.5px;margin:-3px 0 9px;}
+  input[type=text],input[type=email],input[type=tel],input[type=url],input[type=number],textarea,select{
+    width:100%;background:var(--bg-input);border:1px solid var(--border);
+    color:var(--text);border-radius:10px;padding:12px 14px;font-size:14.5px;
+    font-family:inherit;transition:border-color .15s,box-shadow .15s;
+  }
+  textarea{min-height:96px;resize:vertical;}
+  input:focus,textarea:focus,select:focus{
+    outline:none;border-color:var(--border-focus);
+    box-shadow:0 0 0 3px rgba(59,130,246,.18);
+  }
+  ::placeholder{color:var(--text-faint);}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr;}}
+
+  /* Checkbox / radio groups */
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:560px){.checks{grid-template-columns:1fr;}}
+  .check{
+    display:flex;align-items:flex-start;gap:10px;background:var(--bg-input);
+    border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;
+    transition:border-color .15s,background .15s;font-size:14px;color:var(--text-dim);
+  }
+  .check:hover{border-color:var(--accent);}
+  .check input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex:0 0 auto;}
+  .check span small{display:block;color:var(--text-faint);font-size:11.5px;line-height:1.4;}
+
+  .divider{height:1px;background:var(--border);margin:26px 0;border:0;}
+
+  /* Submit */
+  .submit-wrap{text-align:center;padding-top:8px;}
+  button{
+    background:linear-gradient(135deg,var(--accent-2),var(--accent));
+    color:#fff;border:0;border-radius:12px;padding:16px 44px;font-size:16px;
+    font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.3px;
+    box-shadow:0 12px 30px -10px rgba(37,99,235,.6);transition:transform .12s,box-shadow .12s;
+  }
+  button:hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px rgba(37,99,235,.75);}
+  .submit-wrap p{color:var(--text-faint);font-size:12.5px;margin-top:14px;}
+
+  footer{text-align:center;color:var(--text-faint);font-size:12px;margin-top:40px;line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="kicker">Briefing · Projeto Site</span>
+    <h1>Vamos construir o site do <span>Dr. Rafael Cordeiro</span></h1>
+    <p>Dr. Rafael, este formulário é o ponto de partida do seu site. Quanto mais detalhe você trouxer, mais a sua voz e a sua forma de cuidar vão aparecer no resultado final. Não existe resposta errada — escreva como você falaria com um paciente. Leva cerca de 20 a 30 minutos.</p>
+    <div class="meta">
+      <span><b>Tempo estimado:</b> 20–30 min</span>
+      <span>·</span>
+      <span><b>Pode salvar e voltar?</b> Responda de uma vez (o navegador não guarda)</span>
+    </div>
+  </header>
+
+  <div class="note">
+    <b>Dica:</b> se não souber responder algo ou achar que não se aplica, deixe em branco ou escreva "não sei / depois". O importante é avançar. Campos marcados como <em>(opcional)</em> podem ficar vazios.
+  </div>
+
+  <!-- ================= FORM ================= -->
+  <form action="https://formspree.io/f/xykqyngb" method="POST">
+
+    <!-- honeypot anti-spam -->
+    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+    <input type="hidden" name="_subject" value="Briefing respondido — Site Dr. Rafael Cordeiro" />
+
+    <!-- BLOCO 0 — IDENTIFICAÇÃO -->
+    <section>
+      <div class="sec-head">
+        <div class="sec-num">0</div>
+        <h2>Identificação</h2>
+      </div>
+      <p class="sec-desc">Pra gente saber a quem responder e como te chamar no site.</p>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Nome completo</label>
+          <input type="text" name="nome_completo" placeholder="Dr. Rafael Cordeiro ..." required />
+        </div>
+        <div class="field">
+          <label>Como prefere ser chamado no site?</label>
+          <input type="text" name="nome_exibicao" placeholder="Ex: Dr. Rafael Cordeiro" />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>E-mail</label>
+          <input type="email" name="email" placeholder="seu@email.com" required />
+        </div>
+        <div class="field">
+          <label>WhatsApp / telefone de contato</label>
+          <input type="tel" name="telefone" placeholder="(00) 00000-0000" />
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCO 1 — CARREIRA E FORMAÇÃO -->
+    <section>
+      <div class="sec-head">
+        <div class="sec-num">1</div>
+        <h2>Carreira e formação</h2>
+      </div>
+      <p class="sec-desc">A base de credibilidade do site. Isso vai virar a sua página "Sobre".</p>
+
+      <div class="grid2">
+        <div class="field">
+          <label>CRM (com estado)</label>
+          <input type="text" name="crm" placeholder="Ex: CRM-SP 123456" />
+        </div>
+        <div class="field">
+          <label>RQE <span class="opt">(registro de especialista)</span></label>
+          <input type="text" name="rqe" placeholder="Ex: RQE 12345" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Onde se formou em Medicina? <span class="opt">(universidade e ano, se quiser)</span></label>
+        <input type="text" name="graduacao" placeholder="Ex: Universidade ... — concluído em 20XX" />
+      </div>
+
+      <div class="field">
+        <label>Residência médica</label>
+        <p class="hint">Em qual área, em qual hospital/instituição e por quanto tempo?</p>
+        <textarea name="residencia" placeholder="Ex: Residência em Neurocirurgia no Hospital ..., de 20XX a 20XX"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Especializações, fellowships e cursos relevantes</label>
+        <p class="hint">Tudo que reforce sua autoridade (cirurgia de coluna, base de crânio, dor, etc.)</p>
+        <textarea name="especializacoes" placeholder="Liste aqui, uma por linha..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Sociedades e associações das quais é membro <span class="opt">(opcional)</span></label>
+        <textarea name="sociedades" placeholder="Ex: SBN (Sociedade Brasileira de Neurocirurgia), ..."></textarea>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Há quantos anos atua? <span class="opt">(opcional)</span></label>
+          <input type="text" name="anos_experiencia" placeholder="Ex: 12 anos" />
+        </div>
+        <div class="field">
+          <label>Nº aproximado de cirurgias realizadas <span class="opt">(opcional)</span></label>
+          <input type="text" name="num_cirurgias" placeholder="Ex: +2.000" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Prêmios, publicações científicas ou reconhecimentos <span class="opt">(opcional)</span></label>
+        <textarea name="premios" placeholder="Artigos publicados, prêmios, palestras, participação em congressos..."></textarea>
+      </div>
+    </section>
+
+    <!-- BLOCO 2 — FILOSOFIA E PILARES DE TRABALHO -->
+    <section>
+      <div class="sec-head">
+        <div class="sec-num">2</div>
+        <h2>Filosofia e pilares de trabalho</h2>
+      </div>
+      <p class="sec-desc">A alma do site. É aqui que sua voz e seu jeito de cuidar vão transparecer na copy.</p>
+
+      <div class="field">
+        <label>Em uma frase, como você descreve o que faz pelo paciente?</label>
+        <p class="hint">Pode ser sua "frase de impacto" do site. Ex de outro médico: "Ajudo você a fazer as pazes com a sua coluna."</p>
+        <input type="text" name="frase_impacto" placeholder="Escreva com suas palavras..." />
+      </div>
+
+      <div class="field">
+        <label>O que mais te diferencia de outros neurocirurgiões?</label>
+        <p class="hint">Pense no que seus pacientes mais elogiam, no que você faz que outros não fazem.</p>
+        <textarea name="diferenciais" placeholder="Escreva livremente..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Quais são os 3 pilares / valores centrais do seu trabalho?</label>
+        <p class="hint">Ex: atendimento humanizado, técnicas minimamente invasivas, diagnóstico preciso. Liste os seus.</p>
+        <textarea name="pilares" placeholder="1) ...&#10;2) ...&#10;3) ..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Como você descreveria seu estilo de atendimento?</label>
+        <p class="hint">Acolhedor? Direto e técnico? Educativo? Como é uma consulta com você?</p>
+        <textarea name="estilo_atendimento" placeholder="Descreva como é estar na sua consulta..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Por que você escolheu a neurocirurgia? <span class="opt">(opcional, mas ajuda muito)</span></label>
+        <p class="hint">Histórias pessoais conectam. O que te motiva nessa profissão?</p>
+        <textarea name="motivacao" placeholder="Conte sua história..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Qual o tom que você quer transmitir no site?</label>
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="tom[]" value="Acolhedor e humano"><span>Acolhedor e humano</span></label>
+          <label class="check"><input type="checkbox" name="tom[]" value="Técnico e científico"><span>Técnico e científico</span></label>
+          <label class="check"><input type="checkbox" name="tom[]" value="Confiável e sóbrio"><span>Confiável e sóbrio</span></label>
+          <label class="check"><input type="checkbox" name="tom[]" value="Moderno e tecnológico"><span>Moderno e tecnológico</span></label>
+          <label class="check"><input type="checkbox" name="tom[]" value="Próximo e didático"><span>Próximo e didático</span></label>
+          <label class="check"><input type="checkbox" name="tom[]" value="Premium / alto padrão"><span>Premium / alto padrão</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCO 3 — PROCEDIMENTOS E TECNOLOGIAS -->
+    <section>
+      <div class="sec-head">
+        <div class="sec-num">3</div>
+        <h2>Procedimentos e tecnologias</h2>
+      </div>
+      <p class="sec-desc">O que você trata e como. Vira a área de "Tratamentos" e dá força técnica ao site.</p>
+
+      <div class="field">
+        <label>Quais condições / dores você mais atende?</label>
+        <p class="hint">Marque as que se aplicam. Vamos criar conteúdo educativo para cada uma marcada.</p>
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Hérnia de disco lombar"><span>Hérnia de disco lombar</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Hérnia de disco cervical"><span>Hérnia de disco cervical</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Dor ciática / ciatalgia"><span>Dor ciática / ciatalgia</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Lombalgia (dor lombar)"><span>Lombalgia (dor lombar)</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Cervicalgia (dor no pescoço)"><span>Cervicalgia (dor no pescoço)</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Estenose de canal vertebral"><span>Estenose de canal vertebral</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Bico de papagaio (osteófitos)"><span>Bico de papagaio (osteófitos)</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Escoliose"><span>Escoliose</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Espondilolistese"><span>Espondilolistese</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Compressão de nervo / radiculopatia"><span>Compressão de nervo / radiculopatia</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Fraturas vertebrais / osteoporose"><span>Fraturas vertebrais / osteoporose</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Tumores de coluna e cérebro"><span>Tumores de coluna e cérebro</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Dormência / formigamento em membros"><span>Dormência / formigamento</span></label>
+          <label class="check"><input type="checkbox" name="condicoes[]" value="Dor neuropática / nevralgia"><span>Dor neuropática / nevralgia</span></label>
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <input type="text" name="condicoes_outras" placeholder="Outras condições que você atende e não estão acima..." />
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="field">
+        <label>Quais técnicas e procedimentos cirúrgicos você domina / oferece?</label>
+        <p class="hint">Ex: cirurgia endoscópica de coluna, microcirurgia, artrodese, descompressão minimamente invasiva...</p>
+        <textarea name="tecnicas" placeholder="Liste as principais, uma por linha..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Você trabalha com tratamentos NÃO cirúrgicos? Quais?</label>
+        <p class="hint">Ex: infiltração, bloqueio, ozonioterapia, encaminhamento para fisioterapia/RPG...</p>
+        <textarea name="tratamentos_conservadores" placeholder="Descreva..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Qual seu maior diferencial TÉCNICO? O que você quer destacar?</label>
+        <p class="hint">Equipamento, técnica exclusiva, abordagem minimamente invasiva, recuperação rápida...</p>
+        <textarea name="diferencial_tecnico" placeholder="Escreva..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Há algo sobre tratamentos que você quer DESMISTIFICAR para o paciente? <span class="opt">(opcional)</span></label>
+        <p class="hint">Ex: "cirurgia de coluna não deixa a pessoa na cadeira de rodas", mitos comuns que você quer corrigir.</p>
+        <textarea name="mitos" placeholder="Escreva..."></textarea>
+      </div>
+    </section>
+
+    <!-- BLOCO 4 — OPERACIONAL E CONTATO -->
+    <section>
+      <div class="sec-head">
+        <div class="sec-num">4</div>
+        <h2>Operacional e contato</h2>
+      </div>
+      <p class="sec-desc">As informações práticas: onde, como e por onde o paciente te encontra.</p>
+
+      <div class="field">
+        <label>Em quais clínicas / hospitais você atende?</label>
+        <p class="hint">Para cada local: nome, endereço completo e telefone/WhatsApp. Uma por bloco.</p>
+        <textarea name="locais_atendimento" placeholder="Local 1: Nome — Endereço — Telefone&#10;Local 2: ..." style="min-height:130px;"></textarea>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>WhatsApp para agendamento</label>
+          <input type="tel" name="whatsapp_agendamento" placeholder="(00) 00000-0000" />
+        </div>
+        <div class="field">
+          <label>Telefone fixo / secretária <span class="opt">(opcional)</span></label>
+          <input type="tel" name="telefone_fixo" placeholder="(00) 0000-0000" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Você atende convênios? Quais? <span class="opt">(ou só particular)</span></label>
+        <textarea name="convenios" placeholder="Ex: Particular + Unimed, Bradesco Saúde..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Horários de atendimento <span class="opt">(opcional)</span></label>
+        <input type="text" name="horarios" placeholder="Ex: Seg a Sex, 8h às 18h" />
+      </div>
+
+      <hr class="divider" />
+
+      <div class="grid2">
+        <div class="field">
+          <label>Instagram <span class="opt">(opcional)</span></label>
+          <input type="text" name="instagram" placeholder="@seu_perfil" />
+        </div>
+        <div class="field">
+          <label>Outras redes / site atual <span class="opt">(opcional)</span></label>
+          <input type="text" name="outras_redes" placeholder="Facebook, LinkedIn, YouTube, Doctoralia..." />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Você tem fotos profissionais disponíveis?</label>
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="fotos[]" value="Retrato profissional"><span>Retrato profissional</span></label>
+          <label class="check"><input type="checkbox" name="fotos[]" value="Fotos atendendo / consultório"><span>Atendendo / consultório</span></label>
+          <label class="check"><input type="checkbox" name="fotos[]" value="Fotos do ambiente da clínica"><span>Ambiente da clínica</span></label>
+          <label class="check"><input type="checkbox" name="fotos[]" value="Ainda não tenho — preciso produzir"><span>Ainda não tenho</span></label>
+        </div>
+        <p class="hint" style="margin-top:10px;">As fotos podem ser enviadas separadamente depois. Aqui só queremos saber o que já existe.</p>
+      </div>
+
+      <div class="field">
+        <label>Você tem depoimentos de pacientes que podemos usar? <span class="opt">(com autorização)</span></label>
+        <textarea name="depoimentos" placeholder="Cole depoimentos aqui, ou avise se prefere que a gente colete depois."></textarea>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="field">
+        <label>Sites de referência que você gosta <span class="opt">(opcional)</span></label>
+        <p class="hint">Sites de outros médicos ou de qualquer área que você ache bonitos / queira se inspirar.</p>
+        <textarea name="referencias" placeholder="Cole links ou descreva o que gostou em cada um..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Tem algo que você NÃO quer no site? <span class="opt">(opcional)</span></label>
+        <textarea name="evitar" placeholder="Cores, abordagens, promessas que você não quer fazer..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Espaço livre — qualquer coisa que queira acrescentar</label>
+        <textarea name="livre" placeholder="O que mais você quiser nos contar sobre você, seu trabalho e a sua visão para o site."></textarea>
+      </div>
+    </section>
+
+    <div class="submit-wrap">
+      <button type="submit">Enviar respostas</button>
+      <p>Ao enviar, suas respostas vão direto para a equipe do projeto. Obrigado, Dr. Rafael!</p>
+    </div>
+
+  </form>
+
+  <footer>
+    Briefing do projeto · Site institucional Dr. Rafael Cordeiro — Neurocirurgião<br />
+    Este formulário coleta apenas informações para a produção do site.
+  </footer>
+
+</div>
+</body>
+</html>
