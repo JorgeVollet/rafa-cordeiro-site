@@ -12,26 +12,22 @@ const navItens = [
   { label: "Privacidade", to: "/privacidade" },
 ];
 
-/** Marca compacta (símbolo + nome) usada no rodapé. */
+/** Logo oficial do Dr. Rafael no rodapé (fundo escuro esconde o resíduo do PNG). */
 function Marca() {
   return (
-    <Link to="/" className="group inline-flex items-center gap-3">
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#2979FF] transition-transform duration-300 group-hover:-translate-y-0.5">
-        <svg width="20" height="20" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-          <g stroke="#fff" strokeWidth="5" strokeLinecap="round">
-            <path d="M32 13c-5 0-7 3-7 6s3 4 7 4 7 1 7 4-2 6-7 6-7 3-7 6 3 6 7 6" />
-            <path d="M22 20h20M21.5 32h21M22 44h20" />
-          </g>
-        </svg>
-      </span>
-      <span className="flex flex-col leading-none">
-        <span className="f-serif text-[1.4rem] font-semibold tracking-wide text-white">
-          Dr. Rafael Cordeiro
-        </span>
-        <span className="f-mono mt-1 text-[0.58rem] text-[#B6C7DF]">
-          Neurocirurgião
-        </span>
-      </span>
+    <Link
+      to="/"
+      aria-label="Dr. Rafael Cordeiro dos Santos, neurocirurgião — página inicial"
+      className="inline-block transition-opacity duration-300 hover:opacity-90"
+    >
+      <img
+        src="/imagens/logo.png"
+        alt="Dr. Rafael Cordeiro dos Santos, neurocirurgião"
+        width={720}
+        height={359}
+        loading="lazy"
+        className="block h-auto w-[220px] sm:w-[250px]"
+      />
     </Link>
   );
 }

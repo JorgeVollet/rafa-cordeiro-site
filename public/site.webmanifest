@@ -1,0 +1,11 @@
+{
+  "name": "Dr. Rafael Cordeiro — Neurocirurgião",
+  "short_name": "Dr. Rafael",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#33506E",
+  "background_color": "#16263F",
+  "display": "browser"
+}

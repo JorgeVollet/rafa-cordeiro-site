@@ -43,3 +43,11 @@ Thumbs.db
 _videos-originais/
 # Pasta de materiais brutos (assets de origem, não vão pro deploy)
 MATERIAIS VISUAIS/
+
+# Documentos comerciais e conversas (CPF, valores, falas pessoais — LGPD: nunca no GitHub)
+CONTRATO/
+PROPOSTA/
+REUNIOES/
+
+# Vercel CLI (vínculo local do projeto; o .env.local já cai no .env.* acima)
+.vercel

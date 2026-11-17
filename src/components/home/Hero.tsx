@@ -2,11 +2,14 @@ import { Reveal } from "@/components/ui/Reveal";
 import { site, whatsappLink } from "@/data/site";
 import { WhatsAppIcon, ArrowRightIcon, ShieldCheckIcon } from "@/components/ui/icons";
 
-const stats = [
-  { v: "15+", l: "anos dedicados à coluna" },
-  { v: "100%", l: "foco em coluna e dor" },
-  { v: "Mínima", l: "técnica minimamente invasiva" },
-  { v: `${site.crm}`, l: "registro profissional" },
+/**
+ * Faixa de destaques (ajustada com o Dr. Rafael em 16/11/2026): registro
+ * profissional em primeiro e com CRM + RQE; sem "anos dedicados".
+ */
+const stats: { l: string; v: string[] }[] = [
+  { l: "registro profissional", v: [site.crm, site.rqe] },
+  { l: "foco em coluna e dor", v: ["Tratamentos minimamente invasivos"] },
+  { l: "acolhimento individualizado", v: ["Atendimento humanizado"] },
 ];
 
 /** §1 Hero + §2 Faixa de números (fundo neural em vídeo, full-bleed). */
@@ -125,12 +128,16 @@ export function Hero() {
 
       {/* §2 faixa de números */}
       <div className="relative z-10 mx-auto max-w-[1654px] px-5 pb-16 sm:px-8">
-        <div className="grid grid-cols-2 gap-5 md:gap-7 lg:grid-cols-4 lg:gap-8">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-7 lg:gap-8">
           {stats.map((s, i) => (
             <Reveal key={s.l} delay={i * 80} className="glass glass-hover p-4 md:p-5">
               <div className="f-mono mb-1 text-[0.62rem] text-[#B6C7DF]">{s.l}</div>
-              <div className="f-display text-xl font-extrabold tracking-tight text-white md:text-2xl">
-                {s.v}
+              <div className="f-display text-xl font-extrabold leading-tight tracking-tight text-white md:text-2xl">
+                {s.v.map((linha) => (
+                  <span key={linha} className="block">
+                    {linha}
+                  </span>
+                ))}
               </div>
             </Reveal>
           ))}

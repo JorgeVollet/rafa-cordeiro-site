@@ -1,20 +1,14 @@
-import { useParams } from "react-router-dom";
 import { PagePlaceholder } from "@/components/layout/PagePlaceholder";
 
+/** Artigo do blog — placeholder até os artigos serem publicados (noindex). */
 export function Post() {
-  const { slug } = useParams();
-
   return (
     <PagePlaceholder
       kicker="Blog"
       title="Artigo em breve"
-      description={
-        slug
-          ? `O artigo “${slug}” será carregado do Supabase quando o blog estiver no ar.`
-          : "Este artigo será carregado do Supabase quando o blog estiver no ar."
-      }
-      fase="Fase 5"
-      seoTitle="Artigo"
+      description="Este artigo está sendo preparado pelo Dr. Rafael. Enquanto isso, veja as condições que ele trata ou agende sua avaliação."
+      seoTitle="Artigo em breve"
+      noindex
     />
   );
 }

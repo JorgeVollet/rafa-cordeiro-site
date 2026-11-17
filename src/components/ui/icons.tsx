@@ -101,6 +101,15 @@ export const HeartPulseIcon = (p: IconProps) => (
   </Base>
 );
 
+/** Mira/óptica — usado em "Cirurgia endoscópica da coluna". */
+export const TargetIcon = (p: IconProps) => (
+  <Base {...p}>
+    <circle cx="12" cy="12" r="8" />
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+  </Base>
+);
+
 export const RouteIcon = (p: IconProps) => (
   <Base {...p}>
     <circle cx="6" cy="19" r="2.5" />

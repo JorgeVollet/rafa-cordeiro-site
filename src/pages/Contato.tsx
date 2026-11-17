@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { SEO } from "@/components/layout/SEO";
 import { Reveal } from "@/components/ui/Reveal";
-import { site, whatsappLink } from "@/data/site";
+import { site, whatsappLink, whatsappConfigurado, enderecoCompleto } from "@/data/site";
+import { track } from "@/lib/analytics";
 import {
   WhatsAppIcon,
   MapPinIcon,
@@ -9,9 +10,26 @@ import {
   ClockIcon,
 } from "@/components/ui/icons";
 
-const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID as string | undefined;
+const FORMSPREE_RAW = import.meta.env.VITE_FORMSPREE_ID as string | undefined;
+/** ID real do Formspree (o "xpzgabcd" do .env.example não conta). */
+const FORMSPREE_ID = FORMSPREE_RAW && FORMSPREE_RAW !== "xpzgabcd" ? FORMSPREE_RAW : "";
 
-type Estado = "idle" | "enviando" | "ok" | "erro";
+type Estado = "idle" | "enviando" | "ok" | "ok-whatsapp" | "erro";
+
+/** Mensagem do formulário convertida para o WhatsApp (quando não há Formspree). */
+function mensagemWhatsApp(data: FormData): string {
+  const nome = String(data.get("nome") ?? "").trim();
+  const telefone = String(data.get("telefone") ?? "").trim();
+  const mensagem = String(data.get("mensagem") ?? "").trim();
+  return [
+    `Olá! Vim pelo site do Dr. Rafael Cordeiro.`,
+    nome && `Meu nome é ${nome}.`,
+    telefone && `Telefone: ${telefone}.`,
+    mensagem,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
 
 function ContatoForm() {
   const [estado, setEstado] = useState<Estado>("idle");
@@ -21,9 +39,16 @@ function ContatoForm() {
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    // Sem ID configurado: não tenta enviar (evita erro silencioso em dev).
-    if (!FORMSPREE_ID || FORMSPREE_ID === "xpzgabcd") {
-      setEstado("erro");
+    // Sem Formspree: leva a mensagem pronta para o WhatsApp de agendamento.
+    if (!FORMSPREE_ID) {
+      if (!whatsappConfigurado) {
+        setEstado("erro");
+        return;
+      }
+      track("formulario_enviado", { canal: "whatsapp" });
+      window.open(whatsappLink(mensagemWhatsApp(data)), "_blank", "noopener,noreferrer");
+      setEstado("ok-whatsapp");
+      form.reset();
       return;
     }
 
@@ -35,6 +60,7 @@ function ContatoForm() {
         headers: { Accept: "application/json" },
       });
       if (res.ok) {
+        track("formulario_enviado", { canal: "formulario" });
         setEstado("ok");
         form.reset();
       } else {
@@ -45,7 +71,7 @@ function ContatoForm() {
     }
   }
 
-  if (estado === "ok") {
+  if (estado === "ok" || estado === "ok-whatsapp") {
     return (
       <div className="card-light p-8 text-center sm:p-10">
         <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#EAF1FC] text-[#1565C0]">
@@ -54,11 +80,12 @@ function ContatoForm() {
           </svg>
         </span>
         <h3 className="f-display mt-5 text-2xl font-semibold tracking-tight text-[#16263A]">
-          Mensagem enviada!
+          {estado === "ok-whatsapp" ? "Quase lá!" : "Mensagem enviada!"}
         </h3>
         <p className="f-body mt-2 text-sm leading-relaxed text-[#52617A]">
-          Recebemos seu contato e retornaremos em breve. Para algo urgente, fale
-          pelo WhatsApp.
+          {estado === "ok-whatsapp"
+            ? "Abrimos o WhatsApp com a sua mensagem pronta — é só tocar em enviar."
+            : "Recebemos seu contato e retornaremos em breve. Para algo urgente, fale pelo WhatsApp."}
         </p>
         <button
           type="button"
@@ -105,9 +132,7 @@ function ContatoForm() {
 
       {estado === "erro" && (
         <p className="f-body mt-4 rounded-lg bg-[#FDECEC] px-4 py-3 text-sm text-[#B23B3B]">
-          {!FORMSPREE_ID || FORMSPREE_ID === "xpzgabcd"
-            ? "Formulário ainda não configurado (defina VITE_FORMSPREE_ID no .env). Enquanto isso, fale pelo WhatsApp."
-            : "Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp."}
+          Não foi possível enviar agora. Tente novamente em instantes.
         </p>
       )}
 
@@ -161,12 +186,14 @@ export function Contato() {
                 <WhatsAppIcon size={18} />
                 Falar no WhatsApp
               </a>
-              <a
-                href={`mailto:${site.email}`}
-                className="btn-ghost f-mono inline-flex items-center gap-2 px-7 py-3.5 text-xs"
-              >
-                {site.email}
-              </a>
+              {site.email && (
+                <a
+                  href={`mailto:${site.email}`}
+                  className="btn-ghost f-mono inline-flex items-center gap-2 px-7 py-3.5 text-xs"
+                >
+                  {site.email}
+                </a>
+              )}
             </div>
           </Reveal>
         </div>
@@ -244,15 +271,16 @@ export function Contato() {
                   <ul className="mt-4 space-y-3 text-sm text-[#CBD7E8]">
                     <li className="flex gap-3">
                       <MapPinIcon size={18} className="mt-0.5 shrink-0 text-[#AFCBE8]" />
-                      <span>
-                        {cl.endereco}
-                        {cl.bairro ? `, ${cl.bairro}` : ""} · {cl.cidade}
-                      </span>
+                      <span>{enderecoCompleto(cl)}</span>
                     </li>
-                    <li className="flex gap-3">
-                      <PhoneIcon size={18} className="mt-0.5 shrink-0 text-[#AFCBE8]" />
-                      <span>{cl.telefone}</span>
-                    </li>
+                    {cl.telefone && (
+                      <li className="flex gap-3">
+                        <PhoneIcon size={18} className="mt-0.5 shrink-0 text-[#AFCBE8]" />
+                        <a href={`tel:${cl.telefone.replace(/\D/g, "")}`} className="hover:text-white">
+                          {cl.telefone}
+                        </a>
+                      </li>
+                    )}
                   </ul>
                   <div className="mt-6 flex flex-wrap gap-3">
                     <a

@@ -2,18 +2,23 @@ import { SEO } from "@/components/layout/SEO";
 import { Reveal } from "@/components/ui/Reveal";
 import { site } from "@/data/site";
 
+/** Canal para o titular exercer direitos (e-mail quando houver; senão, WhatsApp/contato). */
+const canalContato = site.email
+  ? `pelo e-mail ${site.email}`
+  : "pelos canais de contato deste site (WhatsApp ou formulário)";
+
 const secoes = [
   {
     titulo: "1. Quem é o responsável pelos dados",
     paragrafos: [
-      `Este site é mantido por ${site.nome} (${site.crm} · ${site.rqe}). O responsável pelo tratamento dos dados pessoais coletados aqui pode ser contatado pelo e-mail ${site.email}.`,
+      `Este site é mantido por ${site.nome} (${site.crm} · ${site.rqe}). O responsável pelo tratamento dos dados pessoais coletados aqui pode ser contatado ${canalContato}.`,
     ],
   },
   {
     titulo: "2. Quais dados coletamos",
     paragrafos: [
       "Dados que você nos fornece voluntariamente pelo formulário de contato: nome, e-mail, telefone e o conteúdo da mensagem.",
-      "Dados de navegação coletados automaticamente, como páginas visitadas e informações técnicas do dispositivo, quando aplicável, por meio de cookies e ferramentas de medição de audiência.",
+      "Dados de navegação anônimos e agregados — páginas visitadas, origem da visita (por exemplo, um anúncio ou uma busca), tipo de dispositivo e cliques nos botões de contato — medidos pela ferramenta de estatística Umami, que não usa cookies e não identifica o visitante.",
     ],
   },
   {
@@ -31,19 +36,19 @@ const secoes = [
   {
     titulo: "5. Compartilhamento",
     paragrafos: [
-      "Seus dados podem ser processados por serviços que viabilizam o funcionamento do site (por exemplo, o serviço de envio do formulário). Esses parceiros tratam os dados apenas para a finalidade contratada e sob obrigações de segurança.",
+      "Seus dados podem ser processados por serviços que viabilizam o funcionamento do site (por exemplo, o serviço de envio do formulário, o WhatsApp para agendamento e o Umami para estatísticas de visita). Esses parceiros tratam os dados apenas para a finalidade contratada e sob obrigações de segurança.",
     ],
   },
   {
     titulo: "6. Seus direitos",
     paragrafos: [
-      "Você pode solicitar a qualquer momento a confirmação, o acesso, a correção, a portabilidade ou a exclusão dos seus dados, bem como revogar o consentimento. Para isso, escreva para o e-mail informado acima.",
+      "Você pode solicitar a qualquer momento a confirmação, o acesso, a correção, a portabilidade ou a exclusão dos seus dados, bem como revogar o consentimento. Para isso, fale com o responsável pelo canal informado acima.",
     ],
   },
   {
     titulo: "7. Cookies",
     paragrafos: [
-      "Utilizamos cookies essenciais ao funcionamento do site e, eventualmente, cookies de medição de audiência. Você pode gerenciar ou bloquear cookies nas configurações do seu navegador; alguns recursos podem deixar de funcionar corretamente.",
+      "Este site não usa cookies de rastreamento nem de publicidade: a medição de audiência (Umami) funciona sem cookies. Você pode gerenciar ou bloquear cookies nas configurações do seu navegador a qualquer momento.",
     ],
   },
   {

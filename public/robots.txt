@@ -1,8 +1,0 @@
-# Site Dr. Rafael Cordeiro — Neurocirurgião
-User-agent: *
-Allow: /
-
-# Painel administrativo não deve ser indexado
-Disallow: /admin
-
-Sitemap: https://www.rafaelcordeiro.com.br/sitemap.xml

@@ -1,7 +1,13 @@
 import { Reveal } from "@/components/ui/Reveal";
-import { RouteIcon, SparkIcon, ShieldCheckIcon } from "@/components/ui/icons";
+import { RouteIcon, SparkIcon, ShieldCheckIcon, TargetIcon } from "@/components/ui/icons";
 
 const tecnologias = [
+  {
+    Icone: TargetIcon,
+    titulo: "Cirurgia endoscópica da coluna",
+    texto:
+      "Acesso à coluna por uma incisão de poucos milímetros, guiado por câmera de alta definição, preservando a musculatura e favorecendo a recuperação.",
+  },
   {
     Icone: RouteIcon,
     titulo: "Neuronavegação",
@@ -39,7 +45,7 @@ export function Tecnologias() {
             e o mínimo de impacto possível para você.
           </p>
         </Reveal>
-        <div className="mt-14 grid gap-5 md:grid-cols-3">
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {tecnologias.map((t, i) => (
             <Reveal key={t.titulo} delay={i * 90} className="card-light card-hover p-7">
               <span className="grid size-12 place-items-center rounded-xl bg-[#EAF1FC] text-[#1565C0]">

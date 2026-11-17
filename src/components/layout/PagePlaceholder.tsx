@@ -9,11 +9,11 @@ interface PagePlaceholderProps {
   kicker: string;
   title: string;
   description: string;
-  /** Em qual fase do plano esta página será construída. */
-  fase: string;
   /** SEO da página. */
   seoTitle: string;
   seoDescription?: string;
+  /** Página ainda sem conteúdo próprio: fora do Google até ter conteúdo. */
+  noindex?: boolean;
   /** Conteúdo extra opcional. */
   children?: ReactNode;
 }
@@ -26,14 +26,14 @@ export function PagePlaceholder({
   kicker,
   title,
   description,
-  fase,
   seoTitle,
   seoDescription,
+  noindex = false,
   children,
 }: PagePlaceholderProps) {
   return (
     <>
-      <SEO title={seoTitle} description={seoDescription ?? description} />
+      <SEO title={seoTitle} description={seoDescription ?? description} noindex={noindex} />
 
       <section className="relative overflow-hidden">
         {/* Fundo suave */}
@@ -70,18 +70,14 @@ export function PagePlaceholder({
                 Agendar avaliação
               </Button>
               <Button
-                to="/"
+                to="/tratamentos"
                 variant="outline"
                 size="lg"
                 iconRight={<ArrowRightIcon size={18} />}
               >
-                Voltar ao início
+                Ver tratamentos
               </Button>
             </div>
-
-            <p className="mt-10 inline-block rounded-full bg-azul-suave px-4 py-2 text-sm font-medium text-azul-escuro">
-              🚧 Conteúdo desta página chega na {fase}.
-            </p>
           </div>
 
           {children && <div className="mx-auto mt-12 max-w-4xl">{children}</div>}

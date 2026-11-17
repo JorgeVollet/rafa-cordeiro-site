@@ -19,6 +19,7 @@ export function WhatsAppFloat() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Agendar avaliação pelo WhatsApp"
+      data-analytics-source="botao-flutuante"
       className={cn(
         "group fixed bottom-5 right-5 z-40 flex items-center gap-3 rounded-full bg-verde py-3 pl-3 pr-4 text-white shadow-float transition-all duration-500 ease-soft hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-verde/50 focus-visible:ring-offset-2 sm:bottom-7 sm:right-7",
         visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0",

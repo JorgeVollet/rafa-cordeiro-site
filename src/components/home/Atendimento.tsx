@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/ui/Reveal";
-import { site, whatsappLink } from "@/data/site";
+import { site, whatsappLink, enderecoCompleto } from "@/data/site";
 import {
   MapPinIcon,
   PhoneIcon,
@@ -7,7 +7,7 @@ import {
   WhatsAppIcon,
 } from "@/components/ui/icons";
 
-/** §16 Atendimento / endereços — clínicas + mapa (placeholder até endereços reais). */
+/** §16 Atendimento / endereços — clínicas + mapa. */
 export function Atendimento() {
   return (
     <section id="atendimento" className="sec-light py-20 sm:py-28">
@@ -35,15 +35,16 @@ export function Atendimento() {
                 <ul className="mt-4 space-y-3 text-sm text-[#52617A]">
                   <li className="flex gap-3">
                     <MapPinIcon size={18} className="mt-0.5 shrink-0 text-[#1565C0]" />
-                    <span>
-                      {cl.endereco}
-                      {cl.bairro ? `, ${cl.bairro}` : ""} · {cl.cidade}
-                    </span>
+                    <span>{enderecoCompleto(cl)}</span>
                   </li>
-                  <li className="flex gap-3">
-                    <PhoneIcon size={18} className="mt-0.5 shrink-0 text-[#1565C0]" />
-                    <span>{cl.telefone}</span>
-                  </li>
+                  {cl.telefone && (
+                    <li className="flex gap-3">
+                      <PhoneIcon size={18} className="mt-0.5 shrink-0 text-[#1565C0]" />
+                      <a href={`tel:${cl.telefone.replace(/\D/g, "")}`} className="hover:text-[#1565C0]">
+                        {cl.telefone}
+                      </a>
+                    </li>
+                  )}
                   <li className="flex gap-3">
                     <ClockIcon size={18} className="mt-0.5 shrink-0 text-[#1565C0]" />
                     <span>{site.horarios}</span>
